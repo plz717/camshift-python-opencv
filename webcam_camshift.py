@@ -65,6 +65,9 @@ def do_camshift():
     backProj = cv2.calcBackProject([hsv], [0], roiHist, [0, 180], 1)
 
     # apply cam shift to the back projection, convert the points to a bounding box, and then draw them
+    # cv2.CamShift returns：1.The estimated position, size and orientation of the object we want to track. 
+    # We then take this estimation and draw a rotated bounding box
+    # 2.the newly estimated position of the ROI, which will be re-fed into subsequent calls into the cv2.CamShift function
     (r, roiBox) = cv2.CamShift(backProj, roiBox, termination)
     pts = np.int0(cv2.cv.BoxPoints(r))
     cv2.polylines(frame, [pts], True, (0, 255, 0), 2)
